@@ -9,13 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    filenamevalidaror.cpp \
+    foldernamevalidator.cpp \
     main.cpp \
     mainwindow.cpp \
-    savedialog.cpp
+    savedialog.cpp \
+    savenewimagetolibarydialog.cpp
 
 HEADERS += \
+    filenamevalidaror.h \
+    foldernamevalidator.h \
     mainwindow.h \
-    savedialog.h
+    savedialog.h \
+    savenewimagetolibarydialog.h
 
 FORMS += \
     mainwindow.ui

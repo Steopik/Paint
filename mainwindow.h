@@ -22,6 +22,7 @@
 
 
 #include "savedialog.h"
+#include "savenewimagetolibarydialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -44,7 +45,12 @@ public:
     QPushButton *Color2PushButton;
     QLabel *LabelForPaint;
     QComboBox* WidthOfPenComboBox;
+    QComboBox* ToolComboBox;
     QCheckBox* FillChechBox;
+    QComboBox* LibaryComboBox;
+    QComboBox* ImageComboBox;
+
+    QLabel* WorkLabel;
 
     QFile file;
     QPainter painter;
@@ -54,18 +60,27 @@ public:
     QPoint StartPoint, StartLinePoint, EndPoint, StartPolygonPoint = QPoint(-1, -1);
     QPoint FirstFillPoint = QPoint(-1, -1), EndFillPoint = QPoint(-1, -1);
     QPixmap CopyPixMap;
+    QPixmap LibaryPixMap;
+
     QVector <QPixmap> VectorOfPixMap;
     QVector <QPoint> FillQueueVector;
+    QVector <QPoint> PolygonPoints;
+    QVector <QVector <QPixmap>> VectorOfLibarysPixMap;
+    QVector <QVector <QString>> VectorOfFilesName;
+    QVector <QString> VectorOfLibarysName;
+
 
     QString Operation = "Move";
 
-    bool Repaint = true;
+    bool Repaint = false;
     bool isSrart = true;
     bool HasPolygon = false;
     bool HasFill = false;
     bool EndMove = false;
     int WidthOfPen = 1;
-    int ToolNumber = 6;
+    int ToolNumber = 1;
+    int RecursionDepth = 0;
+
     QString WorkArea = "Paint";
 
     QPixmap appendPixMap;
@@ -92,8 +107,9 @@ public:
     void Copy();
     void insert();
 
-
-
+    void CreateNewLibary();
+    void OpenLibary();
+    void drawImage();
 
 private slots:
     void on_Color1PushButton_clicked();
@@ -109,7 +125,8 @@ private slots:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *event);
 
-    void on_spinBox_valueChanged(int arg1);
+
+    void on_comboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
