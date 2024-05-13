@@ -112,7 +112,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(Color1PushButton, SIGNAL(pressed()), this, SLOT(on_Color1PushButton_clicked()));
     connect(Color2PushButton, SIGNAL(pressed()), this, SLOT(on_Color2PushButton_clicked()));
     connect(WidthOfPenComboBox, &QComboBox::activated, [&](){WidthOfPen = (WidthOfPenComboBox->currentText().split(' ')[0]).toInt();});
-    connect(ToolComboBox, &QComboBox::activated, [&](){ToolNumber = ToolComboBox->currentIndex() + 1;});
+    connect(ToolComboBox, &QComboBox::activated, [&](){
+        if (HasFill && ToolNumber == 8){
+            HasFill = false;
+            Repaint = true;
+            ToolNumber = ToolComboBox->currentIndex() + 1;
+            repaint();
+        }
+        ToolNumber = ToolComboBox->currentIndex() + 1;
+    });
     connect(LibaryComboBox, &QComboBox::activated, [&](){ImageComboBox->clear(); ImageComboBox->addItems(VectorOfFilesName[LibaryComboBox->currentIndex()]);});
 
     newFile();
