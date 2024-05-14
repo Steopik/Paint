@@ -23,6 +23,7 @@
 
 #include "savedialog.h"
 #include "savenewimagetolibarydialog.h"
+#include "helpmenu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -110,6 +111,7 @@ public:
     void CreateNewLibary();
     void OpenLibary();
     void drawImage();
+    void showHelp();
 
 private slots:
     void on_Color1PushButton_clicked();

@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     filenamevalidaror.cpp \
     foldernamevalidator.cpp \
+    helpmenu.cpp \
     main.cpp \
     mainwindow.cpp \
     savedialog.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 HEADERS += \
     filenamevalidaror.h \
     foldernamevalidator.h \
+    helpmenu.h \
     mainwindow.h \
     savedialog.h \
     savenewimagetolibarydialog.h

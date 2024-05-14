@@ -13,14 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     QAction*SaveFileActioon = new QAction("Сохранить как CTRL + S");
     QAction*OpenLibaryActioon = new QAction("Открыть библиотеку CTRL + R");
     QAction*CreateLibaryActioon = new QAction("Создать библиотеку CTRL + E");
+    QAction*HelpActioon = new QAction("Справка F1");
 
     FileMenu->addAction(NewFileActioon);
     FileMenu->addAction(OpenFileActioon);
     FileMenu->addAction(SaveFileActioon);
     FileMenu->addAction(OpenLibaryActioon);
     FileMenu->addAction(CreateLibaryActioon);
+    FileMenu->addAction(HelpActioon);
+
     FilePushButton = new QPushButton(this);
-    FilePushButton->setText("Файл");
+    FilePushButton->setText("Меню");
     FilePushButton->setGeometry(0, 0, 70, 20);
     FilePushButton->setMenu(FileMenu);
 
@@ -65,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(OpenFileActioon, &QAction::triggered, [=](){OpenFile();});
+    connect(HelpActioon, &QAction::triggered, [=](){showHelp();});
+
     connect(SaveFileActioon, &QAction::triggered, [=](){
         if (WorkArea == "Libary") {
             if (HasChanges){
@@ -120,6 +125,14 @@ MainWindow::MainWindow(QWidget *parent)
             repaint();
         }
         ToolNumber = ToolComboBox->currentIndex() + 1;
+        if (ToolNumber == 10 && !VectorOfLibarysName.isEmpty()){
+            ImageComboBox->show();
+            LibaryComboBox->show();
+        }
+        else{
+            ImageComboBox->hide();
+            LibaryComboBox->hide();
+        }
     });
     connect(LibaryComboBox, &QComboBox::activated, [&](){ImageComboBox->clear(); ImageComboBox->addItems(VectorOfFilesName[LibaryComboBox->currentIndex()]);});
 
@@ -563,8 +576,6 @@ void MainWindow::OpenLibary()
         ToolComboBox->addItem("Файл из библиотеки");
     }
     LibaryComboBox->addItem(initialPath.split("/").back());
-    LibaryComboBox->setVisible(true);
-    ImageComboBox->setVisible(true);
     ImageComboBox->clear();
     ImageComboBox->addItems(nameVector);
 }
@@ -592,6 +603,12 @@ void MainWindow::drawImage()
     painter.drawPixmap(StartPoint.x(), StartPoint.y() , EndPoint.x() - StartPoint.x(), EndPoint.y() - StartPoint.y(), LibaryPixMap);
     painter.end();
 
+}
+
+void MainWindow::showHelp()
+{
+    HelpMenu * menu = new HelpMenu;
+    menu->exec();
 }
 
 void MainWindow::DrawPolygonLine()
@@ -664,6 +681,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     }
     else if ((event->modifiers() &Qt::ControlModifier) && event->key() == 82) OpenLibary();
+    else if (event->key() == 16777264) showHelp();
     if (HasFill){
         if ((event->modifiers() &Qt::ControlModifier) && event->key() == 67){
             Copy();
@@ -1013,4 +1031,3 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     ToolNumber = ToolComboBox->currentIndex() + 1;
 }
-
